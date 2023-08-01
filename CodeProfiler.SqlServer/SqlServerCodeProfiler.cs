@@ -14,17 +14,19 @@ public class SqlServerCodeProfiler : ICodeProfiler
     private readonly ILogger<SqlServerCodeProfiler> _logger;
     private readonly BlockingCollection<ProfiledSection> _log = new();
     private readonly Thread _worker;
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
 
     public SqlServerCodeProfiler(IOptions<Options> options, ILogger<SqlServerCodeProfiler> logger)
     {
         _options = options.Value;        
         _logger = logger;
-        _worker = new Thread(LogProcessor);
+        _worker = new Thread(() => LogProcessor(_cancellationTokenSource.Token));
+        _worker.Start();
     }
 
-    private void LogProcessor()
+    private void LogProcessor(CancellationToken cancellationToken)
     {
-        while (true)
+        while (!cancellationToken.IsCancellationRequested)
         {
             var batch = new List<ProfiledSection>();
 
@@ -46,6 +48,12 @@ public class SqlServerCodeProfiler : ICodeProfiler
     {
         profiledSection.Stop();
         _log.Add(profiledSection);        
+    }
+
+    public void Stop()
+    {
+        _cancellationTokenSource.Cancel();
+        _worker.Join();
     }
 
     public static void BulkInsert(Options options, IEnumerable<ProfiledSection> sections, ILogger<SqlServerCodeProfiler> logger)
