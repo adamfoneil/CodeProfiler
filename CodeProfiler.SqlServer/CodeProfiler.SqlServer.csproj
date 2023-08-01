@@ -12,6 +12,7 @@
     <Description>Log durations of sections of code to a SQL Server table</Description>
     <Copyright>Copyright (c) 2023 Adam O'Neil</Copyright>
     <PackageProjectUrl>https://github.com/adamfoneil/CodeProfiler</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/adamfoneil/CodeProfiler</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
