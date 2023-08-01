@@ -2,6 +2,5 @@
 
 public interface IProfiler
 {
-    void Log(ProfiledSection profiledSection);
-    void Close();
+    void Log(ProfiledSection profiledSection);    
 }

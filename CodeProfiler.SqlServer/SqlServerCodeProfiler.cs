@@ -3,32 +3,52 @@ using CodeProfiler.Core.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Collections.Concurrent;
 using System.Text.Json;
 
 namespace CodeProfiler.SqlServer;
 
-public class SqlServerProfiler : IProfiler
+public class SqlServerCodeProfiler : IProfiler
 {
     private readonly Options _options;
-    private readonly ILogger<SqlServerProfiler> _logger;
-    private readonly List<ProfiledSection> _sections = new();
+    private readonly ILogger<SqlServerCodeProfiler> _logger;
+    private readonly BlockingCollection<ProfiledSection> _log = new();
+    private readonly Thread _worker;
 
-    public SqlServerProfiler(IOptions<Options> options, ILogger<SqlServerProfiler> logger)
+    public SqlServerCodeProfiler(IOptions<Options> options, ILogger<SqlServerCodeProfiler> logger)
     {
         _options = options.Value;        
         _logger = logger;
+        _worker = new Thread(LogProcessor);
     }
 
-    public void Close() => RunBulkInsert();    
+    private void LogProcessor()
+    {
+        while (true)
+        {
+            var batch = new List<ProfiledSection>();
+
+            for (int i = 0; i < _options.BatchSize && _log.TryTake(out var item); i++) 
+            {
+                batch.Add(item);
+            }
+
+            if (batch.Count > 0)
+            {
+                BulkInsert(_options, batch, _logger);
+            }
+
+            if (_log.Count == 0) Thread.Sleep(TimeSpan.FromSeconds(5));
+        }
+    }
 
     public void Log(ProfiledSection profiledSection)
     {
         profiledSection.Stop();
-        _sections.Add(profiledSection);
-        if (_sections.Count >= _options.BatchSize) RunBulkInsert();
+        _log.Add(profiledSection);        
     }
 
-    public static void BulkInsert(Options options, IEnumerable<ProfiledSection> sections, ILogger<SqlServerProfiler> logger)
+    public static void BulkInsert(Options options, IEnumerable<ProfiledSection> sections, ILogger<SqlServerCodeProfiler> logger)
     {
         try
         {            
@@ -64,15 +84,6 @@ public class SqlServerProfiler : IProfiler
         {
             logger.LogError(exc, "Error in SqlServerProfiler");
         }
-    }
-
-    private void RunBulkInsert()
-    {
-        Task.Run(() =>
-        {
-            BulkInsert(_options, _sections, _logger);
-            _sections.Clear();
-        });        
     }
 
     private static void CreateTableIfNotExists(SqlConnection cn, Options options)

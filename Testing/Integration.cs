@@ -38,7 +38,7 @@ public class Integration
         var logger = LoggerFactory.Create(config =>
         {
             config.AddConsole();            
-        }).CreateLogger<SqlServerProfiler>();
+        }).CreateLogger<SqlServerCodeProfiler>();
 
         var options = new Options()
         {
@@ -53,6 +53,6 @@ public class Integration
             id = i
         })).Concat(Enumerable.Range(1, 100).Select(i => new ProfiledSection($"Integration.CoreWithoutParams.{i}")));
 
-        SqlServerProfiler.BulkInsert(options, sections, logger);
+        SqlServerCodeProfiler.BulkInsert(options, sections, logger);
     }
 }
