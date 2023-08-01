@@ -7,6 +7,6 @@ var section = new ProfiledSection("method name or some other identifier");
 
 /// do some stuff that takes time
 
-Profiler.Log(section); // record the duration along with 
+Profiler.Log(section); // record the duration along with user name and (optionally) any parameters
 ```
 I'm sure this has been done before, but as usual I like to build stuff and learn. This is the first time I've used a [blocking collection](https://github.com/adamfoneil/CodeProfiler/blob/master/CodeProfiler.SqlServer/SqlServerCodeProfiler.cs#L15) before. Yes I got help from ChatGPT when asking how to implement a logging service properly.
