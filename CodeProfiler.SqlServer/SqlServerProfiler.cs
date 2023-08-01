@@ -19,13 +19,13 @@ public class SqlServerProfiler : IProfiler
         _logger = logger;
     }
 
-    public void Close() => InsertTimedBlocks();    
+    public void Close() => RunBulkInsert();    
 
     public void Log(ProfiledSection profiledSection)
     {
         profiledSection.Stop();
         _sections.Add(profiledSection);
-        if (_sections.Count >= _options.BatchSize) InsertTimedBlocks();
+        if (_sections.Count >= _options.BatchSize) RunBulkInsert();
     }
 
     public static void BulkInsert(Options options, IEnumerable<ProfiledSection> sections, ILogger<SqlServerProfiler> logger)
@@ -66,10 +66,13 @@ public class SqlServerProfiler : IProfiler
         }
     }
 
-    private void InsertTimedBlocks()
+    private void RunBulkInsert()
     {
-        Task.Run(() => BulkInsert(_options, _sections, _logger));
-        _sections.Clear();
+        Task.Run(() =>
+        {
+            BulkInsert(_options, _sections, _logger);
+            _sections.Clear();
+        });        
     }
 
     private static void CreateTableIfNotExists(SqlConnection cn, Options options)
