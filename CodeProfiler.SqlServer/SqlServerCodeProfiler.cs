@@ -76,7 +76,7 @@ public class SqlServerCodeProfiler : ICodeProfiler
                 var values = chunk.Select(tb =>
                 {
                     var json = JsonSerializer.Serialize(tb.Parameters);
-                    var insertJson = !string.IsNullOrEmpty(json) ? $"'{json}'" : "NULL";
+                    var insertJson = !string.IsNullOrEmpty(json) ? $"'{json.Replace("'", "''")}'" : "NULL";
 
                     return $@"(
                         '{tb.OperationName}', '{tb.UserName}', {insertJson}, '{tb.StartTime}', {tb.Duration}
