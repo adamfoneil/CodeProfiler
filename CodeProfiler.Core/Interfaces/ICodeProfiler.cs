@@ -1,6 +1,6 @@
 ﻿namespace CodeProfiler.Core.Interfaces;
 
-public interface IProfiler
+public interface ICodeProfiler
 {
     void Log(ProfiledSection profiledSection);    
 }

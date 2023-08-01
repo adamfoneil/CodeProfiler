@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace CodeProfiler.SqlServer;
 
-public class SqlServerCodeProfiler : IProfiler
+public class SqlServerCodeProfiler : ICodeProfiler
 {
     private readonly Options _options;
     private readonly ILogger<SqlServerCodeProfiler> _logger;

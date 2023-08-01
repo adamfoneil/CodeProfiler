@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\CodeProfiler.Core\Interfaces\IProfiler.cs" Link="Core\Interfaces\IProfiler.cs" />
+    <Compile Include="..\CodeProfiler.Core\Interfaces\ICodeProfiler.cs" Link="Core\Interfaces\ICodeProfiler.cs" />
     <Compile Include="..\CodeProfiler.Core\ProfiledSection.cs" Link="Core\ProfiledSection.cs" />
   </ItemGroup>
 
