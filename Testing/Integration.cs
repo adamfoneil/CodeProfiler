@@ -50,7 +50,8 @@ public class Integration
 
         var sections = Enumerable.Range(1, 100).Select(i => new ProfiledSection($"Integration.CoreWithParams.{i}", parameters: new
         {
-            id = i
+            id = i,
+            name = "o'neil"
         })).Concat(Enumerable.Range(1, 100).Select(i => new ProfiledSection($"Integration.CoreWithoutParams.{i}")));
 
         SqlServerCodeProfiler.BulkInsert(options, sections, logger);
