@@ -13,6 +13,8 @@
     <Copyright>Copyright (c) 2023 Adam O'Neil</Copyright>
     <PackageProjectUrl>https://github.com/adamfoneil/CodeProfiler</PackageProjectUrl>
     <RepositoryUrl>https://github.com/adamfoneil/CodeProfiler</RepositoryUrl>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
