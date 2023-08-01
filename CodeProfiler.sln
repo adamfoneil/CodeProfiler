@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeProfiler.Core", "CodePr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeProfiler.SqlServer", "CodeProfiler.SqlServer\CodeProfiler.SqlServer.csproj", "{4C3E4B35-7503-4474-A99A-86155AA1B8AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{6C859263-EA61-4CAF-8FA3-912EFF3B53BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4C3E4B35-7503-4474-A99A-86155AA1B8AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C3E4B35-7503-4474-A99A-86155AA1B8AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C3E4B35-7503-4474-A99A-86155AA1B8AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C859263-EA61-4CAF-8FA3-912EFF3B53BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C859263-EA61-4CAF-8FA3-912EFF3B53BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C859263-EA61-4CAF-8FA3-912EFF3B53BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C859263-EA61-4CAF-8FA3-912EFF3B53BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
