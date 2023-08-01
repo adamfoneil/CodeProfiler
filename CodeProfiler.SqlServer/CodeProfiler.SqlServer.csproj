@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <Compile Include="..\CodeProfiler.Core\Interfaces\IProfiler.cs" Link="Core\Interfaces\IProfiler.cs" />
-    <Compile Include="..\CodeProfiler.Core\TimedBlock.cs" Link="Core\TimedBlock.cs" />
+    <Compile Include="..\CodeProfiler.Core\ProfiledSection.cs" Link="Core\ProfiledSection.cs" />
   </ItemGroup>
 
   <ItemGroup>

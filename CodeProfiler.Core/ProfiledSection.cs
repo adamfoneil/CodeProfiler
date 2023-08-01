@@ -2,26 +2,28 @@
 
 namespace CodeProfiler.Core;
 
-public class TimedBlock
+public class ProfiledSection
 {
     private readonly Stopwatch _stopwatch;
     private readonly DateTime _startTime;
 
-    public TimedBlock(string operationName, string userName, object? parameters = null) : this()
+    private const string DefaultUserName = "system";
+
+    public ProfiledSection(string operationName, string? userName = null, object? parameters = null) : this()
     {
         OperationName = operationName;
-        UserName = userName;
+        UserName = userName ?? DefaultUserName;
         Parameters = parameters;
     }
 
-    public TimedBlock()
+    public ProfiledSection()
     {
         _startTime = DateTime.UtcNow;
         _stopwatch = Stopwatch.StartNew();
     }
 
-    public required string OperationName { get; init; }
-    public required string UserName { get; init; }
+    public string OperationName { get; init; } = default!;
+    public string UserName { get; init; } = DefaultUserName;
     public object? Parameters { get; init; }
 
     public void Stop() => _stopwatch.Stop();
