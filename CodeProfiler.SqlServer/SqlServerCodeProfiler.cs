@@ -75,12 +75,12 @@ public class SqlServerCodeProfiler : ICodeProfiler
             {
                 var values = chunk.Select(tb =>
                 {
-                    var json = JsonSerializer.Serialize(tb.Parameters);
-                    var insertJson = !string.IsNullOrEmpty(json) ? $"'{json.Replace("'", "''")}'" : "NULL";
+                    var result = TrySerialize(tb);
+                    var insertJson = result.Success ? $"'{result.Json!.Replace("'", "''")}'" : "NULL";
 
                     return $@"(
-                        '{tb.OperationName}', '{tb.UserName}', {insertJson}, '{tb.StartTime}', {tb.Duration}
-                    )";
+                            '{tb.OperationName}', '{tb.UserName}', {insertJson}, '{tb.StartTime}', {tb.Duration}
+                        )";
                 });
                 var sql = baseCmd + string.Join(",\r\n", values);
 
@@ -91,6 +91,19 @@ public class SqlServerCodeProfiler : ICodeProfiler
         catch (Exception exc)
         {
             logger.LogError(exc, "Error in SqlServerProfiler");
+        }
+    }
+
+    private static (bool Success, string? Json) TrySerialize(object? parameters)
+    {
+        try
+        {
+            var result = JsonSerializer.Serialize(parameters);
+            return (true, result);
+        }
+        catch 
+        {
+            return (false, default);
         }
     }
 
