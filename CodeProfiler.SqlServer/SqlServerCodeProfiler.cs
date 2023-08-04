@@ -75,7 +75,7 @@ public class SqlServerCodeProfiler : ICodeProfiler
             {
                 var values = chunk.Select(tb =>
                 {
-                    var result = TrySerialize(tb);
+                    var result = TrySerialize(tb.Parameters);
                     var insertJson = result.Success ? $"'{result.Json!.Replace("'", "''")}'" : "NULL";
 
                     return $@"(
