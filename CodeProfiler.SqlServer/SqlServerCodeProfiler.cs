@@ -120,10 +120,15 @@ public class SqlServerCodeProfiler : ICodeProfiler
                 [UserName] nvarchar(50) NOT NULL,
                 [Parameters] nvarchar(max) NULL,
                 [StartTimeUtc] datetime2 NOT NULL,
+                [StartDate] AS CAST([StartTimeUtc] AS date) PERSISTED,
                 [Duration] bigint NOT NULL
             )";
 
         using var cmd = new SqlCommand(createTable, cn);
+        cmd.ExecuteNonQuery();
+
+        // help from https://stackoverflow.com/a/12874132/2023653
+        cmd.CommandText = "CREATE INDEX [IX_logCodeProfiler_StartDate] ON [log].[CodeProfiler] ([StartDate])";
         cmd.ExecuteNonQuery();
     }
 
